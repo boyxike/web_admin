@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title >Admin</title>
+
+    </head>
+    <body>
+        <form>
+            <input type="text" id="user" autocomplete="off">
+            <input type="text" id="password" autocomplete="off">
+            
+            <input type="submit" id="submit" name="submit" value="Send">
+          </form>
+
+        <script>
+            var socket = io();
+
+            socket.on("nextHome", function(data)
+			      {
+              if (data) {
+                window.location.replace("/home");
+              }
+			      });
+
+            $('form').submit(function(){
+                var login = {  
+                    user : $('#user').val(),  
+                    password : $('#password').val()  
+                };  
+              socket.emit('infoLogin', login);
+              $('#user').val('');
+              $('#password').val('');
+              return false;
+            });
+          </script>
+    </body>
+</html>

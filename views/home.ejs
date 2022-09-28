@@ -1,0 +1,51 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<html>
+  <head>
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <ol id="demo"></ol>
+  </body>
+  <script type="text/javascript">
+    var socket = io();
+    function deleteUser(uid) {
+        socket.emit('delUser', uid);
+    }
+
+    function isEnable(uid, enable) {
+        socket.emit('enable', {uid, enable});
+    }
+
+    socket.emit('getData');
+
+    socket.on("newData", function(data)
+		{
+      var list = document.getElementById('demo');
+      list.innerHTML = ''
+      data.user.forEach(element => {
+        var firstname = element.email;
+        var entry = document.createElement('li');
+        var deleteButton = document.createElement("button");
+        var sw = document.createElement("input");
+
+        deleteButton.textContent = 'Xoa';
+        deleteButton.style.background='#000000'
+        deleteButton.style.color = '#FFFFFF'
+        deleteButton.addEventListener('click', () => deleteUser(element.uid));
+
+        sw.name="sr-toggle";
+        sw.id = element.uid;
+        sw.type="checkbox";
+        sw.checked = !element.disabled;
+
+        sw.addEventListener('change', () => isEnable(sw.id, sw.checked));
+
+        entry.appendChild(document.createTextNode(firstname));
+        entry.appendChild(sw);
+        entry.appendChild(deleteButton);
+        list.appendChild(entry);
+      });
+			});       
+</script>
+</html>
