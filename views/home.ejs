@@ -1,51 +1,142 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <html>
-  <head>
-    <title>Dashboard</title>
-  </head>
-  <body>
-    <ol id="demo"></ol>
-  </body>
-  <script type="text/javascript">
-    var socket = io();
-    function deleteUser(uid) {
-        socket.emit('delUser', uid);
+
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="home.css">
+  <style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
     }
 
-    function isEnable(uid, enable) {
-        socket.emit('enable', {uid, enable});
+    #customers td,
+    #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
     }
 
-    socket.emit('getData');
+    #customers tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
 
-    socket.on("newData", function(data)
-		{
-      var list = document.getElementById('demo');
-      list.innerHTML = ''
-      data.user.forEach(element => {
-        var firstname = element.email;
-        var entry = document.createElement('li');
-        var deleteButton = document.createElement("button");
-        var sw = document.createElement("input");
+    #customers tr:hover {
+      background-color: #ddd;
+    }
 
-        deleteButton.textContent = 'Xoa';
-        deleteButton.style.background='#000000'
-        deleteButton.style.color = '#FFFFFF'
-        deleteButton.addEventListener('click', () => deleteUser(element.uid));
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+  </style>
+</head>
 
-        sw.name="sr-toggle";
-        sw.id = element.uid;
-        sw.type="checkbox";
-        sw.checked = !element.disabled;
+<body>
+  <table id="customers">
+    <tr>
+      <th>Email</th>
+      <th>Checkbox</th>
+      <th>Action</th>
+    </tr>
+    <tr>
+      <td>Alfreds Futterkiste</td>
+      <td type="checkbox"></td>
+      <td>Germany</td>
+    </tr>
+    <tr>
+      <td>Berglunds snabbköp</td>
+      <td>Christina Berglund</td>
+      <td>Sweden</td>
+    </tr>
+    <tr>
+      <td>Centro comercial Moctezuma</td>
+      <td>Francisco Chang</td>
+      <td>Mexico</td>
+    </tr>
+    <tr>
+      <td>Ernst Handel</td>
+      <td>Roland Mendel</td>
+      <td>Austria</td>
+    </tr>
+    <tr>
+      <td>Island Trading</td>
+      <td>Helen Bennett</td>
+      <td>UK</td>
+    </tr>
+    <tr>
+      <td>Königlich Essen</td>
+      <td>Philip Cramer</td>
+      <td>Germany</td>
+    </tr>
+    <tr>
+      <td>Laughing Bacchus Winecellars</td>
+      <td>Yoshi Tannamuri</td>
+      <td>Canada</td>
+    </tr>
+    <tr>
+      <td>Magazzini Alimentari Riuniti</td>
+      <td>Giovanni Rovelli</td>
+      <td>Italy</td>
+    </tr>
+    <tr>
+      <td>North/South</td>
+      <td>Simon Crowther</td>
+      <td>UK</td>
+    </tr>
+    <tr>
+      <td>Paris spécialités</td>
+      <td>Marie Bertrand</td>
+      <td>France</td>
+    </tr>
+  </table>
+  <ol id="demo"></ol>
+</body>
+<script type="text/javascript">
+  var socket = io();
+  function deleteUser(uid) {
+    socket.emit('delUser', uid);
+  }
 
-        sw.addEventListener('change', () => isEnable(sw.id, sw.checked));
+  function isEnable(uid, enable) {
+    socket.emit('enable', { uid, enable });
+  }
 
-        entry.appendChild(document.createTextNode(firstname));
-        entry.appendChild(sw);
-        entry.appendChild(deleteButton);
-        list.appendChild(entry);
-      });
-			});       
+  socket.emit('getData');
+
+  socket.on("newData", function (data) {
+    var list = document.getElementById('demo');
+    list.innerHTML = ''
+    data.user.forEach(element => {
+
+
+      var firstname = element.email;
+      var entry = document.createElement('li');
+      var deleteButton = document.createElement("button");
+      var sw = document.createElement("input");
+
+      deleteButton.textContent = 'Xoa';
+      deleteButton.style.background = '#000000'
+      deleteButton.style.color = '#FFFFFF'
+      deleteButton.addEventListener('click', () => deleteUser(element.uid));
+
+      sw.name = "sr-toggle";
+      sw.id = element.uid;
+      sw.type = "checkbox";
+      sw.checked = !element.disabled;
+
+      sw.addEventListener('change', () => isEnable(sw.id, sw.checked));
+
+      entry.appendChild(document.createTextNode(firstname));
+      entry.appendChild(sw);
+      entry.appendChild(deleteButton);
+      list.appendChild(entry);
+    });
+  });       
 </script>
+
 </html>
