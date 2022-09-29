@@ -1,0 +1,30 @@
+.form-container {
+    margin: 50px auto;
+    display: block;
+    width: 50%;
+    text-align: center;
+
+}
+
+.label-text {
+    text-align: start;
+    display: block;
+    font-size: 22px;
+}
+
+.input {
+    padding: 4px;
+    margin: 8px 4px;
+    height: 24px;
+    width: 100%;
+}
+
+#submit {
+    margin: 12px;
+    padding: 12px;
+    color: #000;
+    font-size: 18px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 2px -2px gray;
+}
