@@ -1,58 +1,178 @@
 <!DOCTYPE html>
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-
 <html lang="en">
-
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Admin</title>
-  <link rel="stylesheet" href="custom.css">
-  <link rel="stylesheet" href="_custom.css">
+  <!-- Design by foolishdeveloper.com -->
+    <title>Login</title>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+      *,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: antiquewhite;
+}
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #1845ad,
+        #23a2f6
+    );
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #ff512f,
+        #f09819
+    );
+    right: -30px;
+    bottom: -80px;
+}
+form{
+    height: 520px;
+    width: 400px;
+    background-color: #04AA6D;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
 
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: #e5e5e5;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+::placeholder{
+    color: #000000;
+}
+button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.social{
+  margin-top: 30px;
+  display: flex;
+}
+.social div{
+  background: red;
+  width: 150px;
+  border-radius: 3px;
+  padding: 5px 10px 10px 5px;
+  background-color: rgba(255,255,255,0.27);
+  color: #eaf0fb;
+  text-align: center;
+}
+.social div:hover{
+  background-color: rgba(255,255,255,0.47);
+}
+.social .fb{
+  margin-left: 25px;
+}
+.social i{
+  margin-right: 4px;
+}
 
+    </style>
 </head>
-
 <body>
-  <form class="form-container">
-    <div>
-      <h1>LOGIN</h1>
+    <div class="background">
     </div>
-    <div class="input-content">
-      <label class="label-text">Username</label>
-      <input class="input" placeholder="Username" type="text" id="user" autocomplete="off">
-    </div>
+    <form>
+        <h3>Login</h3>
 
-    <div class="input-content">
-      <label class="label-text">Password</label>
-      <input class="input" placeholder="Password" type="password" id="password" autocomplete="off">
-    </div>
+        <label for="username">Username</label>
+        <input class="input" placeholder="Username" type="text" id="user" autocomplete="off">
 
-    <input type="submit" id="submit" name="submit" value="Login">
-  </form>
+        <label for="password">Password</label>
+        <input class="input" placeholder="Password" type="password" id="password" autocomplete="off">
 
-  <script>
-    var socket = io();
-
-    socket.on("nextHome", function (data) {
-      if (data) {
-        window.location.replace("/home");
-      }
-    });
-
-    $('form').submit(function () {
-      var login = {
-        user: $('#user').val(),
-        password: $('#password').val()
-      };
-      socket.emit('infoLogin', login);
-      $('#user').val('');
-      $('#password').val('');
-      return false;
-    });
-  </script>
+    <input style="margin-top: 32px; background-color: #e5e5e5; color: #080710;" type="submit" id="submit" name="submit" value="Login">
+    </form>
 </body>
 
+<script>
+  var socket = io();
+
+  socket.on("nextHome", function (data) {
+    if (data) {
+      window.location.replace("/home");
+    } else {
+      alert('Sai tài khoản hoặc mật khẩu')
+    }
+  });
+
+  $('form').submit(function () {
+    var login = {
+      user: $('#user').val(),
+      password: $('#password').val()
+    };
+    socket.emit('infoLogin', login);
+    $('#user').val('');
+    $('#password').val('');
+    return false;
+  });
+</script>
 </html>

@@ -25,3 +25,11 @@
     background-color: #04AA6D;
     color: white;
 }
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
